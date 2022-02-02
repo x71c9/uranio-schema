@@ -29,6 +29,18 @@ import {
 
 export {BookPropertyType};
 
+
+export const enum BookSecurityType {
+	UNIFORM = 'UNIFORM',
+	GRANULAR = 'GRANULAR'
+}
+
+export const enum BookPermissionType {
+	NOBODY = 'NOBODY',
+	PUBLIC = 'PUBLIC'
+}
+
+
 type AtomHardProperties = {
 	[k in KeyOfHardProperties]: RealTypeOfAtomHardProperty<k>
 }
@@ -63,11 +75,15 @@ type BondShape<A extends AtomName, D extends Depth> =
 export type Molecule<A extends AtomName, D extends Depth = 0> =
 	D extends (0 | undefined) ? Atom<A> :
 	AtomHardProperties &
+	AtomCommonProperties &
 	AtomPrimitiveShape<A> &
 	BondShape<A,D>
 
 export type AuthAtom<A extends AuthName> =
 	Atom<A>
+
+export type AuthAtomShape<A extends AuthName> =
+	AtomShape<A>
 
 /**
  * Generate
@@ -164,12 +180,12 @@ export type Atom<A extends AtomName> =
 	A extends 'media' ? Media :
 	never;
 
-// export const su:Molecule<'superuser',1> = {
+// export const molecule:Molecule<'superuser',1> = {
 //   _id: '',
 //   _date: new Date(),
+//   _deleted_from: '',
 //   email: '',
 //   password: '',
 //   groups: [{_id: '', _date: new Date(), name: ''}],
 //   // favicon: {_id: '', _date: new Date()}
-// }
-
+// };
