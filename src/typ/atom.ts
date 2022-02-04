@@ -19,10 +19,7 @@
  * @packageDocumentation
  */
 
-import {
-	AtomHardProperties,
-	AtomCommonProperties
-} from './hidden';
+import {AtomHardProperties, AtomCommonProperties} from './common';
 
 
 export type Depth = undefined | 0 | 1 | 2 | 3;
