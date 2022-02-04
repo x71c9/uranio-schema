@@ -20,34 +20,9 @@
  */
 
 import {
-	KeyOfHardProperties,
-	KeyOfCommonProperties,
-	BookPropertyType,
-	RealTypeOfAtomHardProperty,
-	RealTypeOfAtomCommonProperty
-} from './private';
-
-export {BookPropertyType};
-
-
-export const enum BookSecurityType {
-	UNIFORM = 'UNIFORM',
-	GRANULAR = 'GRANULAR'
-}
-
-export const enum BookPermissionType {
-	NOBODY = 'NOBODY',
-	PUBLIC = 'PUBLIC'
-}
-
-
-type AtomHardProperties = {
-	[k in KeyOfHardProperties]: RealTypeOfAtomHardProperty<k>
-}
-
-type AtomCommonProperties = {
-	[k in KeyOfCommonProperties]?: RealTypeOfAtomCommonProperty<k>
-}
+	AtomHardProperties,
+	AtomCommonProperties
+} from './hidden';
 
 
 export type Depth = undefined | 0 | 1 | 2 | 3;
@@ -85,9 +60,7 @@ export type AuthAtom<A extends AuthName> =
 export type AuthAtomShape<A extends AuthName> =
 	AtomShape<A>
 
-/**
- * Generate
- */
+/** --uranio-generate-start */
 
 export type AtomName = 'superuser' | 'user' | 'group' | 'media'
 
@@ -179,6 +152,9 @@ export type Atom<A extends AtomName> =
 	A extends 'group' ? Group :
 	A extends 'media' ? Media :
 	never;
+
+/** --uranio-generate-end */
+
 
 // export const molecule:Molecule<'superuser',1> = {
 //   _id: '',

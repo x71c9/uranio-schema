@@ -6,15 +6,15 @@
  * @packageDocumentation
  */
 
-import {BookPropertyType} from '../typ/atom';
+import {BookProperty} from '../typ/hidden';
 
 export const atom_hard_properties = {
 	_id: {
-		type: BookPropertyType.ID,
+		type: BookProperty.ID,
 		label: '_id',
 	},
 	_date: {
-		type: BookPropertyType.TIME,
+		type: BookProperty.TIME,
 		label: '_date',
 		default: 'NOW',
 		on_error: () => {return new Date();}
@@ -23,17 +23,17 @@ export const atom_hard_properties = {
 
 export const atom_common_properties = {
 	_r:{
-		type: BookPropertyType.ID,
+		type: BookProperty.ID,
 		label: '_r',
 		optional: true
 	},
 	_w:{
-		type: BookPropertyType.ID,
+		type: BookProperty.ID,
 		label: '_w',
 		optional: true
 	},
 	_deleted_from: {
-		type: BookPropertyType.ID,
+		type: BookProperty.ID,
 		label: 'Deleted from',
 		optional: true
 	}
@@ -44,3 +44,23 @@ export const abstract_passport = {
 	auth_atom_name: 'string',
 	groups: 'string[]'
 } as const;
+
+export const real_book_property_type = {
+	ID: 'string',
+	TEXT: 'string',
+	LONG_TEXT: 'string',
+	EMAIL: 'string',
+	INTEGER: 'number',
+	FLOAT: 'number',
+	BINARY: 'boolean',
+	ENCRYPTED: 'string',
+	DAY: 'datetime',
+	TIME: 'datetime',
+	ENUM_STRING: 'string',
+	ENUM_NUMBER: 'number',
+	SET_STRING: 'string[]',
+	SET_NUMBER: 'number[]',
+	ATOM: 'object',
+	ATOM_ARRAY: 'object[]'
+} as const;
+

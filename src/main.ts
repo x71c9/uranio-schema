@@ -6,7 +6,9 @@
 
 export * from './typ/';
 
-import * as stc from './stc/';
+export * from './stc/';
 
-export {stc};
+import * as hidden from './typ/hidden';
+
+export {hidden};
 
