@@ -8,24 +8,14 @@ import {AtomHardProperties, AtomCommonProperties} from './common';
 
 import * as atoms from './atom';
 
-// import * as hidden from '../hid/';
 
 export type Query<A extends atoms.AtomName> = Query.Expression<A> | Query.Logical<A>;
-
-// type PropType<TObj, TProp extends keyof TObj> = TObj[TProp];
 
 export namespace Query {
 
 	type QueryAtomKey<A extends atoms.AtomName> =
-		// hidden.KeyOfHardProperties | hidden.KeyOfCommonProperties | keyof atoms.Atom<A>
 		keyof AtomHardProperties | keyof AtomCommonProperties | keyof atoms.Atom<A>
 	
-	// type QueryAtomRealType<A extends atoms.AtomName, P extends QueryAtomKey<A>> =
-	//   P extends KeyOfHardProperties ? RealTypeOfAtomHardProperty<P> :
-	//   P extends KeyOfCommonProperties ? RealTypeOfAtomCommonProperty<P> :
-	//   P extends keyof atoms.Atom<A> ? PropType<atoms.Atom<A>, P> :
-	//   never;
-
 	type QueryAtomRealType<A extends atoms.AtomName, P extends QueryAtomKey<A>> =
 		P extends keyof AtomHardProperties ? AtomHardProperties[P] :
 		P extends keyof AtomCommonProperties ? AtomCommonProperties[P] :

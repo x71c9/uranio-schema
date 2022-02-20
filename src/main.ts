@@ -4,4 +4,4 @@
  * @packageDocumentation
  */
 
-export * from './typ/';
+export * from './typ/index';

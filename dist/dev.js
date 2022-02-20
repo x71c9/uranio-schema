@@ -9,9 +9,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import {hidden} from './';
-const _1 = __importDefault(require("./"));
-// console.log(hidden, schema);
-console.log(_1.default);
-// export const a:schema.AtomShape<'superuser'> = {};
-//# sourceMappingURL=run.js.map
+const index_1 = __importDefault(require("./index"));
+console.log(index_1.default);
+//# sourceMappingURL=dev.js.map

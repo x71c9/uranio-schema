@@ -24,11 +24,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-// import * as hidden from './hid/';
-// export {hidden};
-// import * as types from './types';
-// export default types;
-// export * from './types';
 const urn_schema = __importStar(require("./main"));
 exports.default = urn_schema;
 //# sourceMappingURL=index.js.map

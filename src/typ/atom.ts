@@ -150,8 +150,16 @@ export type Atom<A extends AtomName> =
 	A extends 'media' ? Media :
 	never;
 
-/** --uranio-generate-end */
+export type RouteCustomName<A extends AtomName> =
+	A extends 'superuser' ? never :
+	A extends 'user' ? never :
+	A extends 'group' ? never :
+	A extends 'media' ? never :
+	A extends 'request' ? never :
+	A extends 'error' ? never :
+	never;
 
+/** --uranio-generate-end */
 
 // export const molecule:Molecule<'superuser',1> = {
 //   _id: '',
