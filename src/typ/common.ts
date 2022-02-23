@@ -12,5 +12,5 @@ export type AtomHardProperties = {
 export type AtomCommonProperties = {
 	_r?: string
 	_w?: string
-	_deleted_from?: string
+	_from?: string
 }
