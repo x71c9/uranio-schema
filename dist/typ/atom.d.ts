@@ -29,7 +29,7 @@ export declare type AuthAtom<A extends AuthName> = Atom<A>;
 export declare type AuthAtomShape<A extends AuthName> = AtomShape<A>;
 /** --uranio-generate-start */
 
-export declare type AtomName = 'superuser' | 'user' | 'group' | 'media' | 'error' | 'request'
+export declare type AtomName = 'superuser' | 'user' | 'group' | 'media' | 'setting' | 'error' | 'request'
 
 export declare type AuthName = 'superuser' | 'user'
 
@@ -58,6 +58,10 @@ declare type MediaShape = AtomCommonProperties & {
 	size: number
 	width?: number
 	height?: number
+}
+
+declare type SettingShape = AtomCommonProperties & {
+	name: string
 }
 
 declare type ErrorShape = AtomCommonProperties & {
@@ -92,6 +96,7 @@ declare type BondProperties<A extends AtomName> =
 	A extends 'user' ? 'groups' :
 	A extends 'group' ? never :
 	A extends 'media' ? never :
+	A extends 'setting' ? never :
 	A extends 'error' ? 'request' :
 	A extends 'request' ? never :
 	never
@@ -101,6 +106,7 @@ declare type BondShapeDepth1<A extends AtomName> =
 	A extends 'user' ? {groups?: Atom<'group'>[]} :
 	A extends 'group' ? Record<never, unknown> :
 	A extends 'media' ? Record<never, unknown> :
+	A extends 'setting' ? Record<never, unknown> :
 	A extends 'error' ? {request?: Atom<'request'>} :
 	A extends 'request' ? Record<never, unknown> :
 	never
@@ -110,6 +116,7 @@ declare type BondShapeDepth2<A extends AtomName> =
 	A extends 'user' ? {groups?: Molecule<'group', 1>[]} :
 	A extends 'group' ? Record<never, unknown> :
 	A extends 'media' ? Record<never, unknown> :
+	A extends 'setting' ? Record<never, unknown> :
 	A extends 'error' ? {request?: Molecule<'request', 1>} :
 	A extends 'request' ? Record<never, unknown> :
 	never
@@ -119,6 +126,7 @@ declare type BondShapeDepth3<A extends AtomName> =
 	A extends 'user' ? {groups?: Molecule<'group', 2>[]} :
 	A extends 'group' ? Record<never, unknown> :
 	A extends 'media' ? Record<never, unknown> :
+	A extends 'setting' ? Record<never, unknown> :
 	A extends 'error' ? {request?: Molecule<'request', 2>} :
 	A extends 'request' ? Record<never, unknown> :
 	never
@@ -128,6 +136,7 @@ declare type BondShapeDepth4<A extends AtomName> =
 	A extends 'user' ? {groups?: Molecule<'group', 3>[]} :
 	A extends 'group' ? Record<never, unknown> :
 	A extends 'media' ? Record<never, unknown> :
+	A extends 'setting' ? Record<never, unknown> :
 	A extends 'error' ? {request?: Molecule<'request', 3>} :
 	A extends 'request' ? Record<never, unknown> :
 	never
@@ -140,6 +149,8 @@ declare type Group = AtomHardProperties & GroupShape
 
 declare type Media = AtomHardProperties & MediaShape
 
+declare type Setting = AtomHardProperties & SettingShape
+
 declare type Error = AtomHardProperties & ErrorShape
 
 declare type Request = AtomHardProperties & RequestShape
@@ -149,6 +160,7 @@ export declare type AtomShape<A extends AtomName> =
 	A extends 'user' ? UserShape :
 	A extends 'group' ? GroupShape :
 	A extends 'media' ? MediaShape :
+	A extends 'setting' ? SettingShape :
 	A extends 'error' ? ErrorShape :
 	A extends 'request' ? RequestShape :
 	never
@@ -158,39 +170,23 @@ export declare type Atom<A extends AtomName> =
 	A extends 'user' ? User :
 	A extends 'group' ? Group :
 	A extends 'media' ? Media :
+	A extends 'setting' ? Setting :
 	A extends 'error' ? Error :
 	A extends 'request' ? Request :
 	never
 
 
-declare type RouteDefaultName = 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple'
-
-declare type RouteCustomName<A extends AtomName> =
+export declare type RouteName<A extends AtomName> =
 	A extends 'superuser' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 	A extends 'user' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 	A extends 'group' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 	A extends 'media' ? 'upload' | 'presigned' | 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
+	A extends 'setting' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 	A extends 'error' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 	A extends 'request' ? 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' :
 never
 
-export declare type RouteName<A extends AtomName> =
-	RouteCustomName<A> | RouteDefaultName;
-
-declare type DefaultRouteURL<A extends AtomName, R extends RouteName<A>> =
-	R extends 'count' ? '/count' :
-	R extends 'find_one' ? '/first' :
-	R extends 'find' ? '/' :
-	R extends 'find_id' ? '/:id' :
-	R extends 'insert' ? '/' :
-	R extends 'update' ? '/:id' :
-	R extends 'delete' ? '/:id' :
-	R extends 'insert_multiple' ? '/multiple' :
-	R extends 'update_multiple' ? '/multiple/:ids' :
-	R extends 'delete_multiple' ? '/multiple/:ids' :
-	never
-
-declare type CustomRouteURL<A extends AtomName, R extends RouteCustomName<A>> =
+export declare type RouteURL<A extends AtomName, R extends RouteName<A>> =
 	A extends 'superuser' ?
 		R extends 'count' ? '/count' :
 		R extends 'find_one' ? '/first' :
@@ -241,6 +237,18 @@ declare type CustomRouteURL<A extends AtomName, R extends RouteCustomName<A>> =
 		R extends 'update_multiple' ? '/multiple/:ids' :
 		R extends 'delete_multiple' ? '/multiple/:ids' :
 		never :
+	A extends 'setting' ?
+		R extends 'count' ? '/count' :
+		R extends 'find_one' ? '/first' :
+		R extends 'find' ? '/' :
+		R extends 'find_id' ? '/:id' :
+		R extends 'insert' ? '/' :
+		R extends 'update' ? '/:id' :
+		R extends 'delete' ? '/:id' :
+		R extends 'insert_multiple' ? '/multiple' :
+		R extends 'update_multiple' ? '/multiple/:ids' :
+		R extends 'delete_multiple' ? '/multiple/:ids' :
+		never :
 	A extends 'error' ?
 		R extends 'count' ? '/count' :
 		R extends 'find_one' ? '/first' :
@@ -267,25 +275,8 @@ declare type CustomRouteURL<A extends AtomName, R extends RouteCustomName<A>> =
 		never :
 never
 
-export declare type RouteURL<A extends AtomName, R extends RouteName<A>> =
-	R extends RouteCustomName<A> ? CustomRouteURL<A,R> :
-	R extends RouteName<A> ? DefaultRouteURL<A,R> :
-	never
 
-declare type DefaultRouteQueryParam<R extends RouteDefaultName> =
-	R extends 'count' ? 'filter' :
-	R extends 'find_one' ? 'filter' | 'options' :
-	R extends 'find' ? 'filter' | 'options' :
-	R extends 'find_id' ? 'options' :
-	R extends 'insert' ? never :
-	R extends 'update' ? never :
-	R extends 'delete' ? never :
-	R extends 'insert_multiple' ? never :
-	R extends 'update_multiple' ? never :
-	R extends 'delete_multiple' ? never :
-	never
-
-declare type CustomRouteQueryParam<A extends AtomName, R extends RouteCustomName<A>> =
+export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> =
 	A extends 'superuser' ?
 		R extends 'count' ? 'filter' :
 		R extends 'find_one' ? 'filter' | 'options' :
@@ -336,6 +327,18 @@ declare type CustomRouteQueryParam<A extends AtomName, R extends RouteCustomName
 		R extends 'update_multiple' ? never :
 		R extends 'delete_multiple' ? never :
 		never :
+	A extends 'setting' ?
+		R extends 'count' ? 'filter' :
+		R extends 'find_one' ? 'filter' | 'options' :
+		R extends 'find' ? 'filter' | 'options' :
+		R extends 'find_id' ? 'options' :
+		R extends 'insert' ? never :
+		R extends 'update' ? never :
+		R extends 'delete' ? never :
+		R extends 'insert_multiple' ? never :
+		R extends 'update_multiple' ? never :
+		R extends 'delete_multiple' ? never :
+		never :
 	A extends 'error' ?
 		R extends 'count' ? 'filter' :
 		R extends 'find_one' ? 'filter' | 'options' :
@@ -362,11 +365,101 @@ declare type CustomRouteQueryParam<A extends AtomName, R extends RouteCustomName
 		never :
 never
 
-export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> =
-	R extends RouteDefaultName ? DefaultRouteQueryParam<R> :
-	R extends RouteCustomName<A> ?
-	CustomRouteQueryParam<A,R> extends string ? CustomRouteQueryParam<A,R> :
-	never :
+
+
+import {urn_response} from 'urn-lib';
+
+export declare type CallResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> =
+	A extends 'superuser' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'user' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'group' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'media' ?
+		R extends 'upload' ? Molecule<A,D>[] :
+		R extends 'presigned' ? string :
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'setting' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'error' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
+	A extends 'request' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		never :
 	never
 
+
+export declare type ApiResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> = urn_response.General<CallResponse<A,R,D>>
+
 export {};/** --uranio-generate-end */
+
