@@ -89,6 +89,8 @@ declare type RequestShape = AtomCommonProperties & {
 
 declare type SettingShape = AtomCommonProperties & {
 	name: string
+	value?: string
+	filter?: string
 }
 
 declare type BondProperties<A extends AtomName> =
@@ -302,7 +304,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -316,7 +318,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -330,7 +332,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -346,7 +348,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -360,7 +362,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -374,7 +376,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
@@ -388,7 +390,7 @@ export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> 
 		R extends 'find' ? 'filter' | 'options' :
 		R extends 'find_id' ? 'options' :
 		R extends 'insert' ? never :
-		R extends 'update' ? never :
+		R extends 'update' ? 'options' :
 		R extends 'delete' ? never :
 		R extends 'insert_multiple' ? never :
 		R extends 'update_multiple' ? never :
