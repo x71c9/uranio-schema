@@ -59,9 +59,9 @@ export type AuthAtomShape<A extends AuthName> =
 
 /** --uranio-generate-start */
 
-export type AtomName = 'superuser' | 'user' | 'group' | 'media'
+export type AtomName = '_superuser' | '_user' | '_group' | '_media'
 
-export type AuthName = 'superuser' | 'user'
+export type AuthName = '_superuser' | '_user'
 
 export type LogName = never
 
@@ -90,38 +90,38 @@ type MediaShape = AtomCommonProperties & {
 }
 
 type BondProperties<A extends AtomName> =
-	A extends 'superuser' ? 'groups' | 'favicon' :
-	A extends 'user' ? 'groups' :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
+	A extends '_superuser' ? 'groups' | 'favicon' :
+	A extends '_user' ? 'groups' :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
 	never
 
 type BondShapeDepth1<A extends AtomName> =
-	A extends 'superuser' ? {groups: Atom<'group'>[], favicon?:Atom<'media'>} :
-	A extends 'user' ? {groups: Atom<'group'>[]} :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
+	A extends '_superuser' ? {groups: Atom<'_group'>[], favicon?:Atom<'_media'>} :
+	A extends '_user' ? {groups: Atom<'_group'>[]} :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
 	never
 
 type BondShapeDepth2<A extends AtomName> =
-	A extends 'superuser' ? {groups: Molecule<'group',1>[], favicon?:Molecule<'media',1>} :
-	A extends 'user' ? {groups: Molecule<'group',1>[]} :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
+	A extends '_superuser' ? {groups: Molecule<'_group',1>[], favicon?:Molecule<'_media',1>} :
+	A extends '_user' ? {groups: Molecule<'_group',1>[]} :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
 	never
 
 type BondShapeDepth3<A extends AtomName> =
-	A extends 'superuser' ? {groups: Molecule<'group',2>[], favicon?:Molecule<'media',2>} :
-	A extends 'user' ? {groups: Molecule<'group',2>[]} :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
+	A extends '_superuser' ? {groups: Molecule<'_group',2>[], favicon?:Molecule<'_media',2>} :
+	A extends '_user' ? {groups: Molecule<'_group',2>[]} :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
 	never
 
 type BondShapeDepth4<A extends AtomName> =
-	A extends 'superuser' ? {groups: Molecule<'group',3>[], favicon?:Molecule<'media',3>} :
-	A extends 'user' ? {groups: Molecule<'group',3>[]} :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
+	A extends '_superuser' ? {groups: Molecule<'_group',3>[], favicon?:Molecule<'_media',3>} :
+	A extends '_user' ? {groups: Molecule<'_group',3>[]} :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
 	never
 
 type Superuser =
@@ -137,31 +137,31 @@ type Media =
 	AtomHardProperties & MediaShape
 
 export type AtomShape<A extends AtomName> =
-	A extends 'superuser' ? SuperuserShape :
-	A extends 'user' ? UserShape :
-	A extends 'group' ? GroupShape :
-	A extends 'media' ? MediaShape :
+	A extends '_superuser' ? SuperuserShape :
+	A extends '_user' ? UserShape :
+	A extends '_group' ? GroupShape :
+	A extends '_media' ? MediaShape :
 	never
 
 export type Atom<A extends AtomName> =
-	A extends 'superuser' ? Superuser :
-	A extends 'user' ? User :
-	A extends 'group' ? Group :
-	A extends 'media' ? Media :
+	A extends '_superuser' ? Superuser :
+	A extends '_user' ? User :
+	A extends '_group' ? Group :
+	A extends '_media' ? Media :
 	never;
 
 export type RouteCustomName<A extends AtomName> =
-	A extends 'superuser' ? never :
-	A extends 'user' ? never :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
-	A extends 'request' ? never :
-	A extends 'error' ? never :
+	A extends '_superuser' ? never :
+	A extends '_user' ? never :
+	A extends '_group' ? never :
+	A extends '_media' ? never :
+	A extends '_request' ? never :
+	A extends '_error' ? never :
 	never;
 
 /** --uranio-generate-end */
 
-// export const molecule:Molecule<'superuser',1> = {
+// export const molecule:Molecule<'_superuser',1> = {
 //   _id: '',
 //   _date: new Date(),
 //   _deleted_from: '',

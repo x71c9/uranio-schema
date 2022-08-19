@@ -21,7 +21,7 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 /** --uranio-generate-end */
-// export const molecule:Molecule<'superuser',1> = {
+// export const molecule:Molecule<'_superuser',1> = {
 //   _id: '',
 //   _date: new Date(),
 //   _deleted_from: '',

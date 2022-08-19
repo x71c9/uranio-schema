@@ -28,487 +28,60 @@ export declare type Molecule<A extends AtomName, D extends Depth = 0> = D extend
 export declare type AuthAtom<A extends AuthName> = Atom<A>;
 export declare type AuthAtomShape<A extends AuthName> = AtomShape<A>;
 /** --uranio-generate-start */
-
-export declare type AtomName = 'superuser' | 'user' | 'group' | 'media' | 'error' | 'request' | 'setting'
-
-export declare type AuthName = 'superuser' | 'user'
-
-export declare type LogName = 'error' | 'request'
-
+export declare type AtomName = '_superuser' | '_user' | '_group' | '_media';
+export declare type AuthName = '_superuser' | '_user';
+export declare type LogName = never;
 declare type SuperuserShape = AtomCommonProperties & {
-	email: string
-	password: string
-	groups?: string[]
-}
-
+    email: string;
+    password: string;
+    groups: string[];
+    favicon?: string;
+};
 declare type UserShape = AtomCommonProperties & {
-	email: string
-	password: string
-	groups?: string[]
-}
-
+    email: string;
+    password: string;
+    groups: string[];
+};
 declare type GroupShape = AtomCommonProperties & {
-	name: string
-}
-
+    name: string;
+};
 declare type MediaShape = AtomCommonProperties & {
-	src: string
-	filename: string
-	type: string
-	size: number
-	width?: number
-	height?: number
-}
-
-declare type ErrorShape = AtomCommonProperties & {
-	status: number
-	msg: string
-	error_code: string
-	error_msg: string
-	request?: string
-	stack?: string
-}
-
-declare type RequestShape = AtomCommonProperties & {
-	full_path: string
-	route_path?: string
-	atom_path?: string
-	connection_path?: string
-	method?: string
-	atom_name?: string
-	route_name?: string
-	params?: string
-	query?: string
-	headers?: string
-	body?: string
-	file?: string
-	ip?: string
-	is_auth?: boolean
-	auth_action?: string
-}
-
-declare type SettingShape = AtomCommonProperties & {
-	name: string
-	value?: string
-	filter?: string
-}
-
-declare type BondProperties<A extends AtomName> =
-	A extends 'superuser' ? 'groups' :
-	A extends 'user' ? 'groups' :
-	A extends 'group' ? never :
-	A extends 'media' ? never :
-	A extends 'error' ? 'request' :
-	A extends 'request' ? never :
-	A extends 'setting' ? never :
-	never
-
-declare type BondShapeDepth1<A extends AtomName> =
-	A extends 'superuser' ? {groups?: Atom<'group'>[]} :
-	A extends 'user' ? {groups?: Atom<'group'>[]} :
-	A extends 'group' ? Record<never, unknown> :
-	A extends 'media' ? Record<never, unknown> :
-	A extends 'error' ? {request?: Atom<'request'>} :
-	A extends 'request' ? Record<never, unknown> :
-	A extends 'setting' ? Record<never, unknown> :
-	never
-
-declare type BondShapeDepth2<A extends AtomName> =
-	A extends 'superuser' ? {groups?: Molecule<'group', 1>[]} :
-	A extends 'user' ? {groups?: Molecule<'group', 1>[]} :
-	A extends 'group' ? Record<never, unknown> :
-	A extends 'media' ? Record<never, unknown> :
-	A extends 'error' ? {request?: Molecule<'request', 1>} :
-	A extends 'request' ? Record<never, unknown> :
-	A extends 'setting' ? Record<never, unknown> :
-	never
-
-declare type BondShapeDepth3<A extends AtomName> =
-	A extends 'superuser' ? {groups?: Molecule<'group', 2>[]} :
-	A extends 'user' ? {groups?: Molecule<'group', 2>[]} :
-	A extends 'group' ? Record<never, unknown> :
-	A extends 'media' ? Record<never, unknown> :
-	A extends 'error' ? {request?: Molecule<'request', 2>} :
-	A extends 'request' ? Record<never, unknown> :
-	A extends 'setting' ? Record<never, unknown> :
-	never
-
-declare type BondShapeDepth4<A extends AtomName> =
-	A extends 'superuser' ? {groups?: Molecule<'group', 3>[]} :
-	A extends 'user' ? {groups?: Molecule<'group', 3>[]} :
-	A extends 'group' ? Record<never, unknown> :
-	A extends 'media' ? Record<never, unknown> :
-	A extends 'error' ? {request?: Molecule<'request', 3>} :
-	A extends 'request' ? Record<never, unknown> :
-	A extends 'setting' ? Record<never, unknown> :
-	never
-
-declare type Superuser = AtomHardProperties & SuperuserShape
-
-declare type User = AtomHardProperties & UserShape
-
-declare type Group = AtomHardProperties & GroupShape
-
-declare type Media = AtomHardProperties & MediaShape
-
-declare type Error = AtomHardProperties & ErrorShape
-
-declare type Request = AtomHardProperties & RequestShape
-
-declare type Setting = AtomHardProperties & SettingShape
-
-export declare type AtomShape<A extends AtomName> =
-	A extends 'superuser' ? SuperuserShape :
-	A extends 'user' ? UserShape :
-	A extends 'group' ? GroupShape :
-	A extends 'media' ? MediaShape :
-	A extends 'error' ? ErrorShape :
-	A extends 'request' ? RequestShape :
-	A extends 'setting' ? SettingShape :
-	never
-
-export declare type Atom<A extends AtomName> =
-	A extends 'superuser' ? Superuser :
-	A extends 'user' ? User :
-	A extends 'group' ? Group :
-	A extends 'media' ? Media :
-	A extends 'error' ? Error :
-	A extends 'request' ? Request :
-	A extends 'setting' ? Setting :
-	never
-
-
-declare type RouteDefaultName = 'count' | 'find_one' | 'find' | 'find_id' | 'insert' | 'update' | 'delete' | 'insert_multiple' | 'update_multiple' | 'delete_multiple' | 'search_count' | 'search'
-
-declare type RouteCustomName<A extends AtomName> =
-	A extends 'superuser' ? never :
-	A extends 'user' ? never :
-	A extends 'group' ? never :
-	A extends 'media' ? 'upload' | 'presigned' :
-	A extends 'error' ? never :
-	A extends 'request' ? never :
-	A extends 'setting' ? never :
-	never
-
-export declare type RouteName<A extends AtomName> =
-	RouteCustomName<A> | RouteDefaultName;
-
-export declare type RouteURL<A extends AtomName, R extends RouteName<A>> =
-	A extends 'superuser' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'user' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'group' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'media' ?
-		R extends 'upload' ? '/upload' :
-		R extends 'presigned' ? '/presigned' :
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'error' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'request' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-	A extends 'setting' ?
-		R extends 'count' ? '/count' :
-		R extends 'find_one' ? '/first' :
-		R extends 'find' ? '/' :
-		R extends 'find_id' ? '/:id' :
-		R extends 'insert' ? '/' :
-		R extends 'update' ? '/:id' :
-		R extends 'delete' ? '/:id' :
-		R extends 'insert_multiple' ? '/multiple' :
-		R extends 'update_multiple' ? '/multiple/:ids' :
-		R extends 'delete_multiple' ? '/multiple/:ids' :
-		R extends 'search_count' ? '/search/count/:q' :
-		R extends 'search' ? '/search/:q' :
-		never :
-never
-
-
-export declare type RouteQueryParam<A extends AtomName, R extends RouteName<A>> =
-	A extends 'superuser' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'user' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'group' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'media' ?
-		R extends 'upload' ? never :
-		R extends 'presigned' ? 'filename' | 'size' | 'type' :
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'error' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'request' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-	A extends 'setting' ?
-		R extends 'count' ? 'filter' :
-		R extends 'find_one' ? 'filter' | 'options' :
-		R extends 'find' ? 'filter' | 'options' :
-		R extends 'find_id' ? 'options' :
-		R extends 'insert' ? never :
-		R extends 'update' ? 'options' :
-		R extends 'delete' ? never :
-		R extends 'insert_multiple' ? never :
-		R extends 'update_multiple' ? never :
-		R extends 'delete_multiple' ? never :
-		R extends 'search_count' ? never :
-		R extends 'search' ? 'options' :
-		never :
-never
-
-
-
-import {urn_response} from 'urn-lib';
-
-export declare type CallResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> =
-	A extends 'superuser' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'user' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'group' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'media' ?
-		R extends 'upload' ? Molecule<A,D>[] :
-		R extends 'presigned' ? string :
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'error' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'request' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	A extends 'setting' ?
-		R extends 'count' ? number :
-		R extends 'find_one' ? Molecule<A,D> :
-		R extends 'find' ? Molecule<A,D>[] :
-		R extends 'find_id' ? Molecule<A,D> :
-		R extends 'insert' ? Molecule<A,D> :
-		R extends 'update' ? Molecule<A,D> :
-		R extends 'delete' ? Molecule<A,D> :
-		R extends 'insert_multiple' ? Molecule<A,D>[] :
-		R extends 'update_multiple' ? Molecule<A,D>[] :
-		R extends 'delete_multiple' ? Molecule<A,D>[] :
-		R extends 'search_count' ? number :
-		R extends 'search' ? Molecule<A,D>[] :
-		never :
-	never
-
-
-export declare type ApiResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> = urn_response.General<CallResponse<A,R,D>>
-
-export {};/** --uranio-generate-end */
-
+    src: string;
+    filename: string;
+    type: string;
+    size: number;
+};
+declare type BondProperties<A extends AtomName> = A extends '_superuser' ? 'groups' | 'favicon' : A extends '_user' ? 'groups' : A extends '_group' ? never : A extends '_media' ? never : never;
+declare type BondShapeDepth1<A extends AtomName> = A extends '_superuser' ? {
+    groups: Atom<'_group'>[];
+    favicon?: Atom<'_media'>;
+} : A extends '_user' ? {
+    groups: Atom<'_group'>[];
+} : A extends '_group' ? never : A extends '_media' ? never : never;
+declare type BondShapeDepth2<A extends AtomName> = A extends '_superuser' ? {
+    groups: Molecule<'_group', 1>[];
+    favicon?: Molecule<'_media', 1>;
+} : A extends '_user' ? {
+    groups: Molecule<'_group', 1>[];
+} : A extends '_group' ? never : A extends '_media' ? never : never;
+declare type BondShapeDepth3<A extends AtomName> = A extends '_superuser' ? {
+    groups: Molecule<'_group', 2>[];
+    favicon?: Molecule<'_media', 2>;
+} : A extends '_user' ? {
+    groups: Molecule<'_group', 2>[];
+} : A extends '_group' ? never : A extends '_media' ? never : never;
+declare type BondShapeDepth4<A extends AtomName> = A extends '_superuser' ? {
+    groups: Molecule<'_group', 3>[];
+    favicon?: Molecule<'_media', 3>;
+} : A extends '_user' ? {
+    groups: Molecule<'_group', 3>[];
+} : A extends '_group' ? never : A extends '_media' ? never : never;
+declare type Superuser = AtomHardProperties & SuperuserShape;
+declare type User = AtomHardProperties & UserShape;
+declare type Group = AtomHardProperties & GroupShape;
+declare type Media = AtomHardProperties & MediaShape;
+export declare type AtomShape<A extends AtomName> = A extends '_superuser' ? SuperuserShape : A extends '_user' ? UserShape : A extends '_group' ? GroupShape : A extends '_media' ? MediaShape : never;
+export declare type Atom<A extends AtomName> = A extends '_superuser' ? Superuser : A extends '_user' ? User : A extends '_group' ? Group : A extends '_media' ? Media : never;
+export declare type RouteCustomName<A extends AtomName> = A extends '_superuser' ? never : A extends '_user' ? never : A extends '_group' ? never : A extends '_media' ? never : A extends '_request' ? never : A extends '_error' ? never : never;
+export {};
+/** --uranio-generate-end */
