@@ -159,14 +159,67 @@ export type RouteCustomName<A extends AtomName> =
 	A extends '_error' ? never :
 	never;
 
+// THE FOLLOWING IS NEEDED FOR THE FIRST TIME DEVELOPING URANIO REPOS
+// ---------------------------------------------------------------------------
+
+type RouteDefaultName = 'count' | 'find_one' | 'find' | 'find_id' | 'insert' |
+	'update' | 'delete' | 'insert_multiple' | 'update_multiple' |
+	'delete_multiple' | 'search_count' | 'search'
+
+export type RouteName<A extends AtomName> =
+	RouteCustomName<A> | RouteDefaultName;
+
+export type RouteQueryParam<A extends AtomName, R extends RouteName<A>> =
+	A extends '_superuser' ?
+		R extends 'count' ? 'filter' :
+		R extends 'find_one' ? 'filter' | 'options' :
+		R extends 'find' ? 'filter' | 'options' :
+		R extends 'find_id' ? 'options' :
+		R extends 'insert' ? never :
+		R extends 'update' ? 'options' :
+		R extends 'delete' ? never :
+		R extends 'insert_multiple' ? never :
+		R extends 'update_multiple' ? never :
+		R extends 'delete_multiple' ? never :
+		R extends 'search_count' ? never :
+		R extends 'search' ? 'options' :
+		never :
+	never
+
+export type RouteURL<A extends AtomName, R extends RouteName<A>> =
+	A extends '_superuser' ?
+		R extends 'count' ? '/count' :
+		R extends 'find_one' ? '/first' :
+		R extends 'find' ? '/' :
+		R extends 'find_id' ? '/:id' :
+		R extends 'insert' ? '/' :
+		R extends 'update' ? '/:id' :
+		R extends 'delete' ? '/:id' :
+		R extends 'insert_multiple' ? '/multiple' :
+		R extends 'update_multiple' ? '/multiple/:ids' :
+		R extends 'delete_multiple' ? '/multiple/:ids' :
+		R extends 'search_count' ? '/search/count/:q' :
+		R extends 'search' ? '/search/:q' :
+		never :
+	never
+
+export type CallResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> =
+	A extends '_superuser' ?
+		R extends 'count' ? number :
+		R extends 'find_one' ? Molecule<A,D> :
+		R extends 'find' ? Molecule<A,D>[] :
+		R extends 'find_id' ? Molecule<A,D> :
+		R extends 'insert' ? Molecule<A,D> :
+		R extends 'update' ? Molecule<A,D> :
+		R extends 'delete' ? Molecule<A,D> :
+		R extends 'insert_multiple' ? Molecule<A,D>[] :
+		R extends 'update_multiple' ? Molecule<A,D>[] :
+		R extends 'delete_multiple' ? Molecule<A,D>[] :
+		R extends 'search_count' ? number :
+		R extends 'search' ? Molecule<A,D>[] :
+		never :
+	never
+
 /** --uranio-generate-end */
 
-// export const molecule:Molecule<'_superuser',1> = {
-//   _id: '',
-//   _date: new Date(),
-//   _deleted_from: '',
-//   email: '',
-//   password: '',
-//   groups: [{_id: '', _date: new Date(), name: ''}],
-//   // favicon: {_id: '', _date: new Date()}
-// };
+
