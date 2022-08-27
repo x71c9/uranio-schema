@@ -220,6 +220,11 @@ export type CallResponse<A extends AtomName, R extends RouteName<A>, D extends D
 		never :
 	never
 
+import {urn_response} from 'urn-lib';
+
+export type ApiResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> = urn_response.General<CallResponse<A,R,D>>
+
+export {};/** --uranio-generate-end */
 /** --uranio-generate-end */
 
 
