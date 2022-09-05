@@ -432,7 +432,7 @@ never
 
 
 
-import {urn_response} from 'urn-lib';
+import {urn_response} from 'uranio-utils';
 
 export type CallResponse<A extends AtomName, R extends RouteName<A>, D extends Depth = 0> =
 	A extends '_superuser' ?
