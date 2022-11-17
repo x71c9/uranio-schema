@@ -30,6 +30,7 @@ export namespace Query {
 		{ $gt?: T } |
 		{ $gte?: T } |
 		{ $in?: T[] } |
+		{ $all?: T[] } |
 		{ $lt?: T } |
 		{ $lte?: T } |
 		{ $ne?: T } |
